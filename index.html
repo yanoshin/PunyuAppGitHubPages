@@ -23,12 +23,36 @@
 
     onResize();
 
+    document.addEventListener("touchmove", function (event) {
+        var event_obj = {
+            type: 'mousemove',
+            point: {
+                x: event.touches[0].pageX,
+                y: event.touches[0].pageY
+            },
+            count: touch_count,
+            modifiers: {
+                shift: false,
+                control: false,
+                option: false,
+                command: false,
+                capsLock: false,
+                space: false
+            }
+        };
+        onMouseMoveForTouch(event_obj);
+        touch_count++;
+        event.preventDefault();
+        //console.log(event_obj + ' touchmove');
+    }, false);
+
     function onMouseDown(event) {
         sites.push(event.point);
         renderDiagram();
     }
 
-    function onMouseMove(event) {
+    function onMouseMoveForTouch(event) {
+        //console.log(event + ' moving');
         mousePos = event.point;
         if (event.count == 0)
             sites.push(event.point);
